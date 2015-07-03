@@ -40,7 +40,7 @@ class Client(object):
 
     def search(self):
         images = self.get(self.search_url)
-        x = PrettyTable(["ID", "Name", "Cmd", "Entrypoint", 
+        x = PrettyTable(["ID", "Name", "Cmd", "Entrypoint",
                          "description", "Created"])
         x.align["name"] = 1
         for i in images.keys():
@@ -51,7 +51,10 @@ class Client(object):
                     image_name = j["name"].split('/')[-1]
                     image_id = image_info['id'][:12]
                     image_description = j['description']
-                    image_cmd = image_info['container_config']['Cmd'][0]
+                    try:
+                        image_cmd = image_info['container_config']['Cmd'][0]
+                    except:
+                        image_cmd = None
                     if isinstance(image_info['container_config']['Entrypoint'], list):
                         image_entrypoint = ' '.join(image_info['container_config']['Entrypoint'])
                     else:
